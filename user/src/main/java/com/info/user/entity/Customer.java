@@ -24,11 +24,11 @@ public class Customer {
     @Column(name = "last_name", nullable = false)
     private String lastName;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "contact_id")
     private Contact contact;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "credential_id")
     private Credential credentialId;
 }

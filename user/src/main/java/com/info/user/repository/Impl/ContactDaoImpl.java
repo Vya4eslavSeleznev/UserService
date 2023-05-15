@@ -3,8 +3,14 @@ package com.info.user.repository.Impl;
 import com.info.user.entity.Contact;
 import com.info.user.repository.ContactDao;
 import com.info.user.repository.factory.HibernateSessionFactory;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import java.util.List;
 
 @Repository
@@ -17,21 +23,40 @@ public class ContactDaoImpl implements ContactDao {
 
     @Override
     public void save(Contact contact) {
-
+        Session session = HibernateSessionFactory.getSessionFactory().openSession();
+        Transaction transaction = session.beginTransaction();
+        session.persist(contact);
+        transaction.commit();
+        session.close();
     }
 
     @Override
     public void update(Contact contact) {
-
+        Session session = HibernateSessionFactory.getSessionFactory().openSession();
+        Transaction transaction = session.beginTransaction();
+        session.merge(contact);
+        transaction.commit();
+        session.close();
     }
 
     @Override
-    public void delete(Contact contact) {
-
+    public void delete(long id) {
+        Session session = HibernateSessionFactory.getSessionFactory().openSession();
+        Transaction transaction = session.beginTransaction();
+        Contact contact = session.load(Contact.class, id);
+        session.delete(contact);
+        transaction.commit();
+        session.close();
     }
 
     @Override
     public List<Contact> findAll() {
-        return null;
+        Session session = HibernateSessionFactory.getSessionFactory().openSession();
+        CriteriaBuilder cb = session.getCriteriaBuilder();
+        CriteriaQuery<Contact> cq = cb.createQuery(Contact.class);
+        Root<Contact> rootEntry = cq.from(Contact.class);
+        CriteriaQuery<Contact> all = cq.select(rootEntry);
+        TypedQuery<Contact> allQuery = session.createQuery(all);
+        return allQuery.getResultList();
     }
 }
