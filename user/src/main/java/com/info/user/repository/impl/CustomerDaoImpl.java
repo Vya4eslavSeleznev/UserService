@@ -1,6 +1,5 @@
 package com.info.user.repository.impl;
 
-import com.info.user.entity.Credential;
 import com.info.user.entity.Customer;
 import com.info.user.repository.CustomerDao;
 import com.info.user.repository.factory.HibernateSessionFactory;

@@ -42,16 +42,6 @@ public class ContactDaoImpl implements ContactDao {
     }
 
     @Override
-    public void delete(long id) {
-        Session session = HibernateSessionFactory.getSessionFactory().openSession();
-        Transaction transaction = session.beginTransaction();
-        Contact contact = session.load(Contact.class, id);
-        session.delete(contact);
-        transaction.commit();
-        session.close();
-    }
-
-    @Override
     public List<Contact> findAll() {
         Session session = HibernateSessionFactory.getSessionFactory().openSession();
         CriteriaBuilder cb = session.getCriteriaBuilder();

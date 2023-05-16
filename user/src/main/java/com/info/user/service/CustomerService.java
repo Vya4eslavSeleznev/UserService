@@ -1,7 +1,8 @@
 package com.info.user.service;
 
-import com.info.user.entity.Contact;
-import com.info.user.model.*;
+import com.info.user.model.CustomerSaveModel;
+import com.info.user.model.CustomerUpdateModel;
+import com.info.user.model.FindCustomerModel;
 
 import java.util.List;
 

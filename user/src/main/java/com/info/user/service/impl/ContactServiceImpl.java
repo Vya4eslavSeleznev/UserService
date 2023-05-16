@@ -1,8 +1,6 @@
 package com.info.user.service.impl;
 
 import com.info.user.entity.Contact;
-import com.info.user.model.ContactSaveModel;
-import com.info.user.model.ContactUpdateModel;
 import com.info.user.repository.ContactDao;
 import com.info.user.service.ContactService;
 import lombok.AllArgsConstructor;
@@ -19,25 +17,6 @@ public class ContactServiceImpl implements ContactService {
     @Override
     public Contact findById(long id) {
         return contactDao.findById(id);
-    }
-
-    @Override
-    public void save(ContactSaveModel contact) {
-        contactDao.save(
-          new Contact(contact.getEmail(), contact.getPhone())
-        );
-    }
-
-    @Override
-    public void update(ContactUpdateModel contact) {
-        contactDao.update(
-          new Contact(contact.getId(), contact.getEmail(), contact.getPhone())
-        );
-    }
-
-    @Override
-    public void delete(long id) {
-        contactDao.delete(id);
     }
 
     @Override

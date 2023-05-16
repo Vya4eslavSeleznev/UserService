@@ -9,6 +9,5 @@ public interface ContactDao {
     Contact findById(long id);
     Contact save(Contact contact);
     void update(Contact contact);
-    void delete(long id);
     List<Contact> findAll();
 }
