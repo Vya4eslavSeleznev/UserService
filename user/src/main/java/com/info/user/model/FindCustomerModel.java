@@ -13,7 +13,7 @@ public class FindCustomerModel {
     private String name;
     private String surname;
     private String lastName;
-    private String login;
+    private String username;
     private String email;
     private String phone;
 }

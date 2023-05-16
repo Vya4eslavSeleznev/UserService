@@ -42,6 +42,8 @@ public class ContactServiceTest {
 
         Contact actualContact = contactService.findById(id);
 
+        verify(contactDao, times(1)).findById(id);
+
         assertEquals(expectedContact.getEmail(), actualContact.getEmail());
         assertEquals(expectedContact.getPhone(), actualContact.getPhone());
     }
@@ -54,9 +56,10 @@ public class ContactServiceTest {
 
         List<Contact> actualContactList = contactService.findAll();
 
+        verify(contactDao, times(1)).findAll();
+
         assertEquals(expectedContactList.get(0).getEmail(), actualContactList.get(0).getEmail());
         assertEquals(expectedContactList.get(0).getPhone(), actualContactList.get(0).getPhone());
-
     }
 }
 

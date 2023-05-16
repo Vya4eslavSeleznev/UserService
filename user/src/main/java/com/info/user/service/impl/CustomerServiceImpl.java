@@ -104,7 +104,7 @@ public class CustomerServiceImpl implements CustomerService {
             elem.getLastName(),
             elem.getCredential().getUsername(),
             elem.getContact().getEmail(),
-            elem.getContact().getEmail()))
+            elem.getContact().getPhone()))
           .collect(Collectors.toList());
     }
 }
