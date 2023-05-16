@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Getter
@@ -15,12 +16,14 @@ import javax.persistence.*;
 @AllArgsConstructor
 public class Customer {
 
-    public Customer(String name, String surname, String lastName, Contact contact, Credential credential) {
+    public Customer(String name, String surname, String lastName, Contact contact, Credential credential,
+                    Date birthDate) {
         this.name = name;
         this.surname = surname;
         this.lastName = lastName;
         this.contact = contact;
         this.credential = credential;
+        this.birthDate = birthDate;
     }
 
     @Id
@@ -43,4 +46,7 @@ public class Customer {
     @OneToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "credential_id")
     private Credential credential;
+
+    @Column(name = "birth_date", nullable = false)
+    private Date birthDate;
 }
