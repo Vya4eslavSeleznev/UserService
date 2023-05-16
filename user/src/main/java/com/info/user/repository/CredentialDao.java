@@ -6,4 +6,5 @@ public interface CredentialDao {
 
     Credential save(Credential credential);
     void update(Credential credential);
+    Credential findCredentialByUsername(String username);
 }

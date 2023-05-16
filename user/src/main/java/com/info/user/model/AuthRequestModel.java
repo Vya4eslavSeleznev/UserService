@@ -7,13 +7,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class CustomerSaveModel {
+public class AuthRequestModel {
 
-    private String name;
-    private String surname;
-    private String lastName;
-    private String email;
-    private String phone;
     private String username;
     private String password;
 }

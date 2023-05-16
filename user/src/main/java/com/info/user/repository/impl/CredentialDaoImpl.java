@@ -29,4 +29,15 @@ public class CredentialDaoImpl implements CredentialDao {
         transaction.commit();
         session.close();
     }
+
+    @Override
+    public Credential findCredentialByUsername(String username) {
+
+        return (Credential) HibernateSessionFactory
+          .getSessionFactory()
+          .openSession()
+          .createQuery("from Credential where username =:username")
+          .setParameter("username", username)
+          .uniqueResult();
+    }
 }

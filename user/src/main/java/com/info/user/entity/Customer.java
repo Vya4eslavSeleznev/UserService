@@ -15,6 +15,14 @@ import javax.persistence.*;
 @AllArgsConstructor
 public class Customer {
 
+    public Customer(String name, String surname, String lastName, Contact contact, Credential credential) {
+        this.name = name;
+        this.surname = surname;
+        this.lastName = lastName;
+        this.contact = contact;
+        this.credential = credential;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -35,12 +43,4 @@ public class Customer {
     @OneToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "credential_id")
     private Credential credential;
-
-    public Customer(String name, String surname, String lastName, Contact contact, Credential credential) {
-        this.name = name;
-        this.surname = surname;
-        this.lastName = lastName;
-        this.contact = contact;
-        this.credential = credential;
-    }
 }

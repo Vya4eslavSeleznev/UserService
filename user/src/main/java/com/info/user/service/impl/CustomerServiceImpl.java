@@ -6,11 +6,13 @@ import com.info.user.entity.Customer;
 import com.info.user.model.CustomerSaveModel;
 import com.info.user.model.CustomerUpdateModel;
 import com.info.user.model.FindCustomerModel;
+import com.info.user.model.Role;
 import com.info.user.repository.ContactDao;
 import com.info.user.repository.CredentialDao;
 import com.info.user.repository.CustomerDao;
 import com.info.user.service.CustomerService;
 import lombok.AllArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,6 +25,7 @@ public class CustomerServiceImpl implements CustomerService {
     private CustomerDao customerDao;
     private ContactDao contactDao;
     private CredentialDao credentialDao;
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public FindCustomerModel findById(long id) {
@@ -33,7 +36,7 @@ public class CustomerServiceImpl implements CustomerService {
           customer.getName(),
           customer.getSurname(),
           customer.getLastName(),
-          customer.getCredential().getLogin(),
+          customer.getCredential().getUsername(),
           customer.getContact().getEmail(),
           customer.getContact().getPhone()
         );
@@ -46,7 +49,10 @@ public class CustomerServiceImpl implements CustomerService {
         );
 
         Credential credential = credentialDao.save(
-          new Credential(customerSaveModel.getLogin(), customerSaveModel.getPassword())
+          new Credential(
+            Role.USER,
+            passwordEncoder.encode(customerSaveModel.getPassword()),
+            customerSaveModel.getUsername())
         );
 
         customerDao.save(
@@ -70,8 +76,9 @@ public class CustomerServiceImpl implements CustomerService {
 
         Credential credential = new Credential(
           customerUpdateModel.getCredentialId(),
-          customerUpdateModel.getLogin(),
-          customerUpdateModel.getPassword()
+          Role.USER,
+          customerUpdateModel.getPassword(),
+          customerUpdateModel.getLogin()
         );
 
         contactDao.update(contact);
@@ -105,7 +112,7 @@ public class CustomerServiceImpl implements CustomerService {
             elem.getName(),
             elem.getSurname(),
             elem.getLastName(),
-            elem.getCredential().getLogin(),
+            elem.getCredential().getUsername(),
             elem.getContact().getEmail(),
             elem.getContact().getEmail()))
           .collect(Collectors.toList());
