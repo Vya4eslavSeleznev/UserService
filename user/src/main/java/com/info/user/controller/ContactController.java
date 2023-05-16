@@ -2,6 +2,7 @@ package com.info.user.controller;
 
 import com.info.user.entity.Contact;
 import com.info.user.service.ContactService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,11 +21,13 @@ public class ContactController {
     private ContactService contactService;
 
     @GetMapping("/{id}")
+    @SecurityRequirement(name = "bearerAuth")
     public ResponseEntity<Contact> findById(@PathVariable long id) {
         return new ResponseEntity<>(contactService.findById(id), HttpStatus.OK);
     }
 
     @GetMapping
+    @SecurityRequirement(name = "bearerAuth")
     public ResponseEntity<List<Contact>> findAll() {
         return new ResponseEntity<>(contactService.findAll(), HttpStatus.OK);
     }
