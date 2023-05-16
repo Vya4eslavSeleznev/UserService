@@ -1,6 +1,5 @@
 package com.info.user.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.info.user.exception.InvalidUserNameOrPasswordException;
 import com.info.user.model.AuthRequestModel;
 import com.info.user.model.TokenResponseModel;
@@ -25,7 +24,7 @@ public class AuthController {
         try {
             return new ResponseEntity<>(signInService.signIn(authRequestModel), HttpStatus.OK);
         }
-        catch(JsonProcessingException | InvalidUserNameOrPasswordException e) {
+        catch(InvalidUserNameOrPasswordException e) {
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
