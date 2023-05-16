@@ -6,11 +6,11 @@ import com.info.user.entity.Customer;
 import com.info.user.model.CustomerSaveModel;
 import com.info.user.model.CustomerUpdateModel;
 import com.info.user.model.FindCustomerModel;
-import com.info.user.repository.ContactDao;
-import com.info.user.repository.CredentialDao;
+import com.info.user.model.Role;
 import com.info.user.repository.CustomerDao;
 import com.info.user.service.CustomerService;
 import lombok.AllArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,8 +21,7 @@ import java.util.stream.Collectors;
 public class CustomerServiceImpl implements CustomerService {
 
     private CustomerDao customerDao;
-    private ContactDao contactDao;
-    private CredentialDao credentialDao;
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public FindCustomerModel findById(long id) {
@@ -33,7 +32,7 @@ public class CustomerServiceImpl implements CustomerService {
           customer.getName(),
           customer.getSurname(),
           customer.getLastName(),
-          customer.getCredential().getLogin(),
+          customer.getCredential().getUsername(),
           customer.getContact().getEmail(),
           customer.getContact().getPhone()
         );
@@ -41,22 +40,27 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public void save(CustomerSaveModel customerSaveModel) {
-        Contact contact = contactDao.save(
-          new Contact(customerSaveModel.getEmail(), customerSaveModel.getPhone())
+        Contact contact = new Contact(
+          customerSaveModel.getEmail(),
+          customerSaveModel.getPhone()
         );
 
-        Credential credential = credentialDao.save(
-          new Credential(customerSaveModel.getLogin(), customerSaveModel.getPassword())
+        Credential credential = new Credential(
+            Role.USER,
+            passwordEncoder.encode(customerSaveModel.getPassword()),
+            customerSaveModel.getUsername()
         );
 
         customerDao.save(
-            new Customer(
-              customerSaveModel.getName(),
-              customerSaveModel.getSurname(),
-              customerSaveModel.getLastName(),
-              contact,
-              credential
-            )
+          new Customer(
+            customerSaveModel.getName(),
+            customerSaveModel.getSurname(),
+            customerSaveModel.getLastName(),
+            contact,
+            credential
+          ),
+          contact,
+          credential
         );
     }
 
@@ -68,15 +72,6 @@ public class CustomerServiceImpl implements CustomerService {
           customerUpdateModel.getPhone()
         );
 
-        Credential credential = new Credential(
-          customerUpdateModel.getCredentialId(),
-          customerUpdateModel.getLogin(),
-          customerUpdateModel.getPassword()
-        );
-
-        contactDao.update(contact);
-        credentialDao.update(credential);
-
         customerDao.update(
           new Customer(
             customerUpdateModel.getId(),
@@ -84,8 +79,10 @@ public class CustomerServiceImpl implements CustomerService {
             customerUpdateModel.getSurname(),
             customerUpdateModel.getLastName(),
             contact,
-            credential
-          )
+            null
+          ),
+          contact,
+          customerUpdateModel.getCredentialId()
         );
     }
 
@@ -105,7 +102,7 @@ public class CustomerServiceImpl implements CustomerService {
             elem.getName(),
             elem.getSurname(),
             elem.getLastName(),
-            elem.getCredential().getLogin(),
+            elem.getCredential().getUsername(),
             elem.getContact().getEmail(),
             elem.getContact().getEmail()))
           .collect(Collectors.toList());

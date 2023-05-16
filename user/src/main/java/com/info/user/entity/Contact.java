@@ -15,6 +15,11 @@ import javax.persistence.*;
 @AllArgsConstructor
 public class Contact {
 
+    public Contact(String email, String phone) {
+        this.email = email;
+        this.phone = phone;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -24,9 +29,4 @@ public class Contact {
 
     @Column(nullable = false, unique = true)
     private String phone;
-
-    public Contact(String email, String phone) {
-        this.email = email;
-        this.phone = phone;
-    }
 }

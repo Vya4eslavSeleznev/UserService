@@ -4,7 +4,6 @@ import com.info.user.entity.Contact;
 import com.info.user.repository.ContactDao;
 import com.info.user.repository.factory.HibernateSessionFactory;
 import org.hibernate.Session;
-import org.hibernate.Transaction;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.TypedQuery;
@@ -19,26 +18,6 @@ public class ContactDaoImpl implements ContactDao {
     @Override
     public Contact findById(long id) {
         return HibernateSessionFactory.getSessionFactory().openSession().get(Contact.class, id);
-    }
-
-    @Override
-    public Contact save(Contact contact) {
-        Session session = HibernateSessionFactory.getSessionFactory().openSession();
-        Transaction transaction = session.beginTransaction();
-        session.persist(contact);
-        transaction.commit();
-        session.close();
-
-        return contact;
-    }
-
-    @Override
-    public void update(Contact contact) {
-        Session session = HibernateSessionFactory.getSessionFactory().openSession();
-        Transaction transaction = session.beginTransaction();
-        session.merge(contact);
-        transaction.commit();
-        session.close();
     }
 
     @Override
