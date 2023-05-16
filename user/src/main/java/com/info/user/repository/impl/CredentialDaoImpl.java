@@ -1,7 +1,7 @@
-package com.info.user.repository.Impl;
+package com.info.user.repository.impl;
 
-import com.info.user.entity.Contact;
-import com.info.user.repository.ContactDao;
+import com.info.user.entity.Credential;
+import com.info.user.repository.CredentialDao;
 import com.info.user.repository.factory.HibernateSessionFactory;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -14,27 +14,27 @@ import javax.persistence.criteria.Root;
 import java.util.List;
 
 @Repository
-public class ContactDaoImpl implements ContactDao {
+public class CredentialDaoImpl implements CredentialDao {
 
     @Override
-    public Contact findById(long id) {
-        return HibernateSessionFactory.getSessionFactory().openSession().get(Contact.class, id);
+    public Credential findById(long id) {
+        return HibernateSessionFactory.getSessionFactory().openSession().get(Credential.class, id);
     }
 
     @Override
-    public void save(Contact contact) {
+    public void save(Credential credential) {
         Session session = HibernateSessionFactory.getSessionFactory().openSession();
         Transaction transaction = session.beginTransaction();
-        session.persist(contact);
+        session.persist(credential);
         transaction.commit();
         session.close();
     }
 
     @Override
-    public void update(Contact contact) {
+    public void update(Credential credential) {
         Session session = HibernateSessionFactory.getSessionFactory().openSession();
         Transaction transaction = session.beginTransaction();
-        session.merge(contact);
+        session.merge(credential);
         transaction.commit();
         session.close();
     }
@@ -43,20 +43,20 @@ public class ContactDaoImpl implements ContactDao {
     public void delete(long id) {
         Session session = HibernateSessionFactory.getSessionFactory().openSession();
         Transaction transaction = session.beginTransaction();
-        Contact contact = session.load(Contact.class, id);
-        session.delete(contact);
+        Credential credential = session.load(Credential.class, id);
+        session.delete(credential);
         transaction.commit();
         session.close();
     }
 
     @Override
-    public List<Contact> findAll() {
+    public List<Credential> findAll() {
         Session session = HibernateSessionFactory.getSessionFactory().openSession();
         CriteriaBuilder cb = session.getCriteriaBuilder();
-        CriteriaQuery<Contact> cq = cb.createQuery(Contact.class);
-        Root<Contact> rootEntry = cq.from(Contact.class);
-        CriteriaQuery<Contact> all = cq.select(rootEntry);
-        TypedQuery<Contact> allQuery = session.createQuery(all);
+        CriteriaQuery<Credential> cq = cb.createQuery(Credential.class);
+        Root<Credential> rootEntry = cq.from(Credential.class);
+        CriteriaQuery<Credential> all = cq.select(rootEntry);
+        TypedQuery<Credential> allQuery = session.createQuery(all);
         return allQuery.getResultList();
     }
 }
