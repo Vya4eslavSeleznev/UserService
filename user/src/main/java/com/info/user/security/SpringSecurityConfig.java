@@ -51,7 +51,7 @@ public class SpringSecurityConfig {
           .authorizeRequests()
           .antMatchers(AUTH_WHITELIST).permitAll()
           .antMatchers("/auth/signin").permitAll()
-          .antMatchers("/customer/**").permitAll()//hasAuthority("ADMIN")
+          .antMatchers("/customer/**").hasAuthority("ADMIN")
           .antMatchers("/contact/**").hasAuthority("ADMIN")
           .anyRequest().authenticated().and()
           .apply(new JwtSecurityConfigurer(jwtTokenProvider));

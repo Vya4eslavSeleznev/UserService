@@ -1,6 +1,5 @@
 package com.info.user;
 
-import com.info.user.repository.impl.CredentialDaoImpl;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -10,8 +9,6 @@ public class UserApplication {
 
 	public static void main(String[] args) {
 		ConfigurableApplicationContext c = SpringApplication.run(UserApplication.class, args);
-
-
 	}
 
 }

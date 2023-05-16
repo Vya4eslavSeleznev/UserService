@@ -7,8 +7,6 @@ import com.info.user.model.CustomerSaveModel;
 import com.info.user.model.CustomerUpdateModel;
 import com.info.user.model.FindCustomerModel;
 import com.info.user.model.Role;
-import com.info.user.repository.ContactDao;
-import com.info.user.repository.CredentialDao;
 import com.info.user.repository.CustomerDao;
 import com.info.user.service.CustomerService;
 import lombok.AllArgsConstructor;
@@ -23,8 +21,6 @@ import java.util.stream.Collectors;
 public class CustomerServiceImpl implements CustomerService {
 
     private CustomerDao customerDao;
-    private ContactDao contactDao;
-    private CredentialDao credentialDao;
     private PasswordEncoder passwordEncoder;
 
     @Override
@@ -44,25 +40,27 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public void save(CustomerSaveModel customerSaveModel) {
-        Contact contact = contactDao.save(
-          new Contact(customerSaveModel.getEmail(), customerSaveModel.getPhone())
+        Contact contact = new Contact(
+          customerSaveModel.getEmail(),
+          customerSaveModel.getPhone()
         );
 
-        Credential credential = credentialDao.save(
-          new Credential(
+        Credential credential = new Credential(
             Role.USER,
             passwordEncoder.encode(customerSaveModel.getPassword()),
-            customerSaveModel.getUsername())
+            customerSaveModel.getUsername()
         );
 
         customerDao.save(
-            new Customer(
-              customerSaveModel.getName(),
-              customerSaveModel.getSurname(),
-              customerSaveModel.getLastName(),
-              contact,
-              credential
-            )
+          new Customer(
+            customerSaveModel.getName(),
+            customerSaveModel.getSurname(),
+            customerSaveModel.getLastName(),
+            contact,
+            credential
+          ),
+          contact,
+          credential
         );
     }
 
@@ -74,16 +72,6 @@ public class CustomerServiceImpl implements CustomerService {
           customerUpdateModel.getPhone()
         );
 
-        Credential credential = new Credential(
-          customerUpdateModel.getCredentialId(),
-          Role.USER,
-          customerUpdateModel.getPassword(),
-          customerUpdateModel.getLogin()
-        );
-
-        contactDao.update(contact);
-        credentialDao.update(credential);
-
         customerDao.update(
           new Customer(
             customerUpdateModel.getId(),
@@ -91,8 +79,10 @@ public class CustomerServiceImpl implements CustomerService {
             customerUpdateModel.getSurname(),
             customerUpdateModel.getLastName(),
             contact,
-            credential
-          )
+            null
+          ),
+          contact,
+          customerUpdateModel.getCredentialId()
         );
     }
 

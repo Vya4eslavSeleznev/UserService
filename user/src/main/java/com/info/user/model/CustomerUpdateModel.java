@@ -17,6 +17,4 @@ public class CustomerUpdateModel {
     private String lastName;
     private String email;
     private String phone;
-    private String login;
-    private String password;
 }

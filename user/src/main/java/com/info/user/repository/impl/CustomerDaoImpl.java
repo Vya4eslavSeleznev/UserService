@@ -1,5 +1,7 @@
 package com.info.user.repository.impl;
 
+import com.info.user.entity.Contact;
+import com.info.user.entity.Credential;
 import com.info.user.entity.Customer;
 import com.info.user.repository.CustomerDao;
 import com.info.user.repository.factory.HibernateSessionFactory;
@@ -22,18 +24,23 @@ public class CustomerDaoImpl implements CustomerDao {
     }
 
     @Override
-    public void save(Customer customer) {
+    public void save(Customer customer, Contact contact, Credential credential) {
         Session session = HibernateSessionFactory.getSessionFactory().openSession();
         Transaction transaction = session.beginTransaction();
+        session.persist(contact);
+        session.persist(credential);
         session.persist(customer);
         transaction.commit();
         session.close();
     }
 
     @Override
-    public void update(Customer customer) {
+    public void update(Customer customer, Contact contact, long credentialId) {
         Session session = HibernateSessionFactory.getSessionFactory().openSession();
         Transaction transaction = session.beginTransaction();
+        Credential credential = session.load(Credential.class, credentialId);
+        customer.setCredential(credential);
+        session.merge(contact);
         session.merge(customer);
         transaction.commit();
         session.close();
