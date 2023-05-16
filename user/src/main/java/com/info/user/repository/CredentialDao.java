@@ -7,7 +7,7 @@ import java.util.List;
 public interface CredentialDao {
 
     Credential findById(long id);
-    void save(Credential credential);
+    Credential save(Credential credential);
     void update(Credential credential);
     void delete(long id);
     List<Credential> findAll();

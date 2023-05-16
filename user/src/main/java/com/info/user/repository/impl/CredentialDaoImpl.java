@@ -22,12 +22,14 @@ public class CredentialDaoImpl implements CredentialDao {
     }
 
     @Override
-    public void save(Credential credential) {
+    public Credential save(Credential credential) {
         Session session = HibernateSessionFactory.getSessionFactory().openSession();
         Transaction transaction = session.beginTransaction();
         session.persist(credential);
         transaction.commit();
         session.close();
+
+        return credential;
     }
 
     @Override

@@ -1,6 +1,8 @@
 package com.info.user.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -9,6 +11,8 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Table(name = "credential")
+@NoArgsConstructor
+@AllArgsConstructor
 public class Credential {
 
     @Id
@@ -20,4 +24,9 @@ public class Credential {
 
     @Column(nullable = false, unique = true)
     private String password;
+
+    public Credential(String login, String password) {
+        this.login = login;
+        this.password = password;
+    }
 }

@@ -7,9 +7,13 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class ContactSaveModel {
+public class FindCustomerModel {
 
+    private long id;
+    private String name;
+    private String surname;
+    private String lastName;
+    private String login;
     private String email;
     private String phone;
-
 }

@@ -46,6 +46,8 @@ public class CustomerDaoImpl implements CustomerDao {
         Transaction transaction = session.beginTransaction();
         Customer customer = session.load(Customer.class, id);
         session.delete(customer);
+        session.delete(customer.getContact());
+        session.delete(customer.getCredential());
         transaction.commit();
         session.close();
     }

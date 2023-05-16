@@ -1,6 +1,8 @@
 package com.info.user.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -9,6 +11,8 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Table(name = "customer")
+@NoArgsConstructor
+@AllArgsConstructor
 public class Customer {
 
     @Id
@@ -30,5 +34,13 @@ public class Customer {
 
     @OneToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "credential_id")
-    private Credential credentialId;
+    private Credential credential;
+
+    public Customer(String name, String surname, String lastName, Contact contact, Credential credential) {
+        this.name = name;
+        this.surname = surname;
+        this.lastName = lastName;
+        this.contact = contact;
+        this.credential = credential;
+    }
 }

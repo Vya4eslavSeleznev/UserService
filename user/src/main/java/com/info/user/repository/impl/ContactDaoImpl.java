@@ -22,14 +22,14 @@ public class ContactDaoImpl implements ContactDao {
     }
 
     @Override
-    public long save(Contact contact) {
+    public Contact save(Contact contact) {
         Session session = HibernateSessionFactory.getSessionFactory().openSession();
         Transaction transaction = session.beginTransaction();
         session.persist(contact);
         transaction.commit();
         session.close();
 
-        return contact.getId();
+        return contact;
     }
 
     @Override
