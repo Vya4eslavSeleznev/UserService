@@ -34,6 +34,8 @@ services:
     image: vya4eslava/telros:latest
     restart: always
     container_name: telros
+    ports:
+      - 8081:8080
     depends_on:
       postgres:
         condition: service_healthy
