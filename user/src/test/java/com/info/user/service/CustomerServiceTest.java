@@ -17,6 +17,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.util.Date;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -43,6 +44,7 @@ public class CustomerServiceTest {
     private String phone;
     private Customer customer;
     private String password;
+    private Date birthDate;
 
     @BeforeEach
     public void init() {
@@ -54,11 +56,13 @@ public class CustomerServiceTest {
         email = "email@gmail.com";
         phone = "8999776655";
         password = "pwd";
+        birthDate = new Date();
 
         customer = new Customer(
           id, name, surname, lastName,
           new Contact(email, phone),
-          new Credential(Role.USER, password, username)
+          new Credential(Role.USER, password, username),
+          birthDate
         );
     }
 
@@ -86,7 +90,7 @@ public class CustomerServiceTest {
     @Test
     public void should_save_customer() {
         CustomerSaveModel customerSaveModel = new CustomerSaveModel(
-          name, surname, lastName, email, phone, username, password
+          name, surname, lastName, email, phone, username, password, birthDate
         );
 
         when(passwordEncoder.encode(password)).thenReturn(password);
@@ -99,7 +103,7 @@ public class CustomerServiceTest {
     @Test
     public void should_update_customer() {
         CustomerUpdateModel customerUpdateModel = new CustomerUpdateModel(
-          id, 4, 4, name, surname, lastName, email, phone
+          id, 4, 4, name, surname, lastName, email, phone, birthDate
         );
 
         customerService.update(customerUpdateModel);
@@ -131,30 +135,5 @@ public class CustomerServiceTest {
         assertEquals(customerList.get(0).getCredential().getUsername(), actualList.get(0).getUsername());
         assertEquals(customerList.get(0).getContact().getEmail(), actualList.get(0).getEmail());
         assertEquals(customerList.get(0).getContact().getPhone(), actualList.get(0).getPhone());
-
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -15,11 +15,14 @@ public class HibernateSessionFactory {
 
     public static SessionFactory getSessionFactory() {
         if (sessionFactory == null) {
-            Configuration configuration = new Configuration().configure();
+            Configuration configuration = new Configuration().configure("hibernate-docker.cfg.xml");
             configuration.addAnnotatedClass(Contact.class);
             configuration.addAnnotatedClass(Credential.class);
             configuration.addAnnotatedClass(Customer.class);
-            StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties());
+
+            StandardServiceRegistryBuilder builder =
+              new StandardServiceRegistryBuilder().applySettings(configuration.getProperties());
+
             sessionFactory = configuration.buildSessionFactory(builder.build());
         }
 

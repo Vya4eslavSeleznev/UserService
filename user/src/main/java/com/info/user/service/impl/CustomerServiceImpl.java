@@ -57,7 +57,8 @@ public class CustomerServiceImpl implements CustomerService {
             customerSaveModel.getSurname(),
             customerSaveModel.getLastName(),
             contact,
-            credential
+            credential,
+            customerSaveModel.getBirthDate()
           ),
           contact,
           credential
@@ -79,7 +80,8 @@ public class CustomerServiceImpl implements CustomerService {
             customerUpdateModel.getSurname(),
             customerUpdateModel.getLastName(),
             contact,
-            null
+            null,
+            customerUpdateModel.getBirthDate()
           ),
           contact,
           customerUpdateModel.getCredentialId()
